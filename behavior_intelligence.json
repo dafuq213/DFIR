@@ -1,0 +1,27 @@
+{
+  "relationships": [
+    {"name": "Office application spawned a script interpreter", "parent": ["\\\\(winword|excel|powerpnt|outlook)\\.exe$"], "child": ["\\\\(powershell|pwsh|cmd|wscript|cscript|mshta|rundll32|regsvr32)\\.exe$"], "score": 70},
+    {"name": "Office application spawned LOLBin", "parent": ["\\\\(winword|excel|powerpnt|outlook)\\.exe$"], "child": ["\\\\(certutil|bitsadmin|installutil|msbuild)\\.exe$"], "score": 75},
+    {"name": "Browser spawned script interpreter", "parent": ["\\\\(chrome|msedge|firefox|iexplore)\\.exe$"], "child": ["\\\\(powershell|pwsh|cmd|wscript|cscript|mshta)\\.exe$"], "score": 55},
+    {"name": "Microsoft Office spawned child process", "parent": ["\\\\(winword|excel|powerpnt)\\.exe$"], "child": [".*"], "score": 20},
+    {"name": "Explorer launched a LOLBin", "parent": ["\\\\explorer\\.exe$"], "child": ["\\\\(mshta|regsvr32|rundll32|certutil|bitsadmin)\\.exe$"], "score": 35},
+    {"name": "Service host spawned a user scripting host", "parent": ["\\\\svchost\\.exe$"], "child": ["\\\\(powershell|pwsh|wscript|cscript|mshta)\\.exe$"], "score": 45},
+    {"name": "Script interpreter spawned a LOLBin", "parent": ["\\\\(powershell|pwsh|cmd|wscript|cscript|mshta)\\.exe$"], "child": ["\\\\(certutil|bitsadmin|rundll32|regsvr32|msbuild|installutil)\\.exe$"], "score": 40},
+    {"name": "PowerShell invoked C# compiler", "parent": ["\\\\(powershell|pwsh)\\.exe$"], "child": ["\\\\csc\\.exe$"], "score": 35},
+    {"name": "PowerShell invoked WMIC", "parent": ["\\\\(powershell|pwsh)\\.exe$"], "child": ["\\\\wmic\\.exe$"], "score": 30},
+    {"name": "IIS web server spawned a shell or script engine", "parent": ["\\\\w3wp\\.exe$"], "child": ["\\\\(cmd|powershell|pwsh|wscript|cscript|mshta)\\.exe$"], "score": 90},
+    {"name": "SQL Server spawned a shell or script engine", "parent": ["\\\\sqlservr\\.exe$"], "child": ["\\\\(cmd|powershell|pwsh|wscript|cscript|mshta)\\.exe$"], "score": 90},
+    {"name": "WMI provider host spawned script engine or LOLBin", "parent": ["\\\\wmiprvse\\.exe$"], "child": ["\\\\(powershell|pwsh|cmd|wscript|cscript|mshta|certutil|bitsadmin|regsvr32|rundll32)\\.exe$"], "score": 80},
+    {"name": "Task scheduler engine spawned script interpreter", "parent": ["\\\\(taskhostw|taskeng)\\.exe$"], "child": ["\\\\(powershell|pwsh|cmd|wscript|cscript|mshta)\\.exe$"], "score": 50},
+    {"name": "LOLBin used for compiled HTML help execution", "parent": ["\\\\(explorer|cmd|powershell|pwsh)\\.exe$"], "child": ["\\\\hh\\.exe$"], "score": 60}
+  ],
+  "process_indicators": [
+    {"name": "PowerShell encoded command", "pattern": ["powershell.*\\s-(enc|encodedcommand)\\s"], "score": 40},
+    {"name": "Proxy execution / remote content", "pattern": ["\\b(mshta|regsvr32|rundll32|certutil|bitsadmin)\\b.*(http|https|scrobj|urlcache)"], "score": 40},
+    {"name": "Execution from user-writable path", "pattern": ["\\\\(users\\\\[^\\\\]+\\\\(appdata|downloads|desktop|temp)|windows\\\\temp)\\\\"], "score": 20},
+    {"name": "PowerShell execution policy bypass", "pattern": ["powershell.*\\s(-ep|-executionpolicy)\\s+bypass"], "score": 35},
+    {"name": "Volume shadow copy deletion via vssadmin", "pattern": ["vssadmin.*delete\\s+shadows"], "score": 85},
+    {"name": "Scheduled task creation via command line", "pattern": ["schtasks.*\\s/create\\s"], "score": 40},
+    {"name": "In-memory download cradle execution", "pattern": ["(downloadstring|downloadfile|invoke-webrequest|iwr|curl|wget).*http"], "score": 50}
+  ]
+}
